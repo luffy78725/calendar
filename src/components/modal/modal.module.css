@@ -1,0 +1,119 @@
+.modal {
+  z-index: 200;
+  opacity: 1;
+  width: 400px;
+  height: fit-content;
+  max-height: 50vh;
+  border-radius: 10px;
+  background: white;
+  padding: 1rem 0;
+  user-select: none;
+  color: grey;
+}
+
+.backdrop {
+  height: 100vh;
+  width: 100vw;
+  /* background-color: red; */
+  top: 0;
+  left: 0;
+  position: absolute;
+  background: rgb(85, 84, 84);
+  opacity: 0.4;
+  z-index: 100;
+}
+
+.positionCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.monthsGrid {
+  margin: auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas:
+    "january february march"
+    "april may june"
+    "july august sepetember"
+    "october november december";
+  height: calc(50vh - 9rem);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+.monthsGrid::-webkit-scrollbar {
+  width: 5px;
+  height: 10px;
+}
+
+.monthsGrid::-webkit-scrollbar-thumb {
+  background: rgb(185, 184, 184);
+}
+
+.monthsGridItem {
+  padding: 1rem;
+  min-height: 50px;
+  line-height: 50px;
+  text-align: center;
+  border: 1px solid rgb(231 228 228 / 26%);
+  border-radius: 0.5rem;
+}
+
+.monthsGridItem:hover {
+  background-color: #b4babe73;
+  transform: scale(0.9);
+  cursor: pointer;
+  color: white;
+}
+
+.modalTitle {
+  padding: 1rem;
+  max-height: 50px;
+  min-height: fit-content;
+  text-align: center;
+  /* text-transform: uppercase; */
+  font-weight: 500;
+  position: relative;
+}
+
+.activeMonth,
+.activeYear {
+  background-color: rgb(243, 240, 240);
+  color: grey;
+  transform: scale(0.9);
+}
+
+.btn {
+  all: unset;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+  background-color: rgb(243, 240, 240);
+  color: grey;
+  border-radius: 5px;
+  box-shadow: rgba(60, 64, 67, 0) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+.btn:active {
+  transform: scale(0.9);
+}
+
+.view {
+  padding: 0.5rem;
+  display: inline-block;
+  width: calc(100% - 2rem);
+}
+
+.view:hover {
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: rgb(243, 240, 240);
+  color: grey;
+}
