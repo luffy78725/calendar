@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Actions from "./actions";
 import { FunctionComponent, ReactElement, ReactNode, useContext } from "react";
 import { CalendarContext } from "../../context/CalendarContext";
@@ -17,7 +17,11 @@ interface CalendarEvents {
 function CustomCalendar({ events }: { events: CalendarEvents }) {
   const { calendarState, populateDays } = useContext(CalendarContext);
 
-  // console.log(calendarState);
+  const eventsDateMapping = useMemo(
+    createEventDateMapping.bind(null, events?.meetings),
+    [events.meetings?.length]
+  );
+
   return (
     <>
       <div className="grid">
@@ -30,15 +34,17 @@ function CustomCalendar({ events }: { events: CalendarEvents }) {
         {calendarState.days.getDays().map((day, index) => (
           <div style={getStyles(day, index)} className="grid-item days">
             <p style={getDayStyles(day, calendarState)}>{day.day}</p>
-            {isCurrentDay(day, calendarState) && (
-              <Events
-                events={[
-                  { title: "One" },
-                  { title: "two" },
-                  { title: "three" },
-                ]}
-              />
-            )}
+            <Events
+              events={
+                eventsDateMapping[
+                  `${calendarState.year}-${(
+                    calendarState.currentMonth.value + 1
+                  )
+                    .toString()
+                    .padStart(2, "0")}-${day.day.toString().padStart(2, "0")}`
+                ]
+              }
+            />
           </div>
         ))}
       </div>
@@ -62,7 +68,7 @@ const Events = ({ events }: EventsProps) => {
         height: "calc(100% - 40px))",
       }}
     >
-      {events.length > 2 ? (
+      {events?.length > 2 ? (
         <>
           <Event event={events[0]} />
           <Event event={events[1]} />
@@ -78,7 +84,7 @@ const Events = ({ events }: EventsProps) => {
           </div>
         </>
       ) : (
-        events.map((item) => <Event event={item} />)
+        events?.map((item) => <Event event={item} />)
       )}
     </div>
   );
@@ -86,4 +92,21 @@ const Events = ({ events }: EventsProps) => {
 
 function Event({ event }: { event: { title: string } }) {
   return <div className={"event"}>{event.title}</div>;
+}
+
+function createEventDateMapping(
+  meetings?: Meeting[]
+): Record<string, Meeting[]> {
+  if (meetings)
+    return meetings.reduce((out, meeting) => {
+      const startDate = meeting.startDateTime.split("T")[0];
+      if (out[startDate]) {
+        out[startDate].push(meeting);
+      } else {
+        out[startDate] = [meeting];
+      }
+      return out;
+    }, {} as Record<string, Meeting[]>);
+
+  return {};
 }

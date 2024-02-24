@@ -12,9 +12,9 @@ function App() {
 
   useEffect(() => {
     axios
-      .get<Meeting[]>("http://localhost:8000/api/v1/meetings")
-      .then((response: AxiosResponse<Meeting[]>) => {
-        setMeetings(response.data);
+      .get<{ data: Meeting[] }>("http://localhost:8000/api/v1/meetings")
+      .then((response: AxiosResponse<{ data: Meeting[] }>) => {
+        setMeetings(response.data.data);
       });
   }, []);
 

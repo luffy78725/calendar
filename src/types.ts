@@ -38,6 +38,25 @@ export type FillDaysGridParam = {
   monthStartDay: number;
 };
 
+export enum WeekDays {
+  Mon = "Mon",
+  Tue = "Tue",
+  Wed = "Wed",
+  Thur = "Thur",
+  Fri = "Fri",
+  Sat = "Sat",
+  Sun = "Sun",
+}
+
 export type Meeting = {
   title: string;
+  description: string;
+  startDateTime: string;
+  endDateTIme: string;
+  participants: string[];
+  remindBefore: number;
+  _id: string;
+  reoccurences: {
+    days: WeekDays[];
+  };
 };
