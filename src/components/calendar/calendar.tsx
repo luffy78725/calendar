@@ -6,9 +6,15 @@ import { weekDayMapping } from "../../constants";
 import { getDayStyles, getStyles } from "./styles";
 import "../../App.css";
 import { isCurrentDay } from "./helper";
+import { Meeting } from "../../types";
 // import { FloationIcon } from "../floating-icon";
 
-function CustomCalendar() {
+interface CalendarEvents {
+  meetings?: Meeting[];
+  tasks?: [];
+}
+
+function CustomCalendar({ events }: { events: CalendarEvents }) {
   const { calendarState, populateDays } = useContext(CalendarContext);
 
   // console.log(calendarState);

@@ -37,3 +37,7 @@ export type FillDaysGridParam = {
   previousMonthtTotalDays: number;
   monthStartDay: number;
 };
+
+export type Meeting = {
+  title: string;
+};

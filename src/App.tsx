@@ -1,36 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Calendar } from "./components/calendar";
 import { CalendarProvider } from "./context/CalendarContext";
+import axios, { AxiosResponse } from "axios";
+import useAskNotificationPermission from "./hooks/useAskNotificationPermission";
+import { Meeting } from "./types";
 
 function App() {
+  const [meetings, setMeetings] = useState<Meeting[]>([]);
+
+  useAskNotificationPermission();
 
   useEffect(() => {
-
-  if (!("Notification" in window)) {
-    alert("This browser does not support desktop notification");
-  } else if (Notification.permission === "granted") {
-   new Notification("Hi there!");
-    // …
-  } else if (Notification.permission !== "denied") {
-    Notification.requestPermission().then((permission) => {
-      if (permission === "granted") {
-        console.log(permission)
-        new Notification("Hi there!", { body: "Permission granted"});
-      }
-    });
-
-  }
-
-    setTimeout(() => {
-        console.log("inside setInterval")
-        new Notification("Hi there!", { body: "Permission granted"});
-    }, 1000)
-}, [])
-
+    axios
+      .get<Meeting[]>("http://localhost:8000/api/v1/meetings")
+      .then((response: AxiosResponse<Meeting[]>) => {
+        setMeetings(response.data);
+      });
+  }, []);
 
   return (
     <CalendarProvider>
-      <Calendar />
+      <Calendar
+        events={{
+          meetings,
+        }}
+      />
     </CalendarProvider>
   );
 }
