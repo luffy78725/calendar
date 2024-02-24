@@ -20,7 +20,7 @@ export default function Actions({ populateDays, calendarState }: Props) {
 
   return (
     <div className="actions">
-      <div
+      <button
         tabIndex={1}
         aria-label="previous"
         className="grid-item actions__prev"
@@ -28,7 +28,7 @@ export default function Actions({ populateDays, calendarState }: Props) {
         onKeyDown={(e) => handleKeyBoardMonthNavigation(e, MonthType.PREVIOUS)}
       >
         &#x3c; &#x3c;
-      </div>
+      </button>
       <div
         className="grid-item actions__months"
         tabIndex={2}
@@ -38,7 +38,7 @@ export default function Actions({ populateDays, calendarState }: Props) {
       >
         {`${calendarState.currentMonth.name} ${calendarState.year}`}
       </div>
-      <div
+      <button
         tabIndex={3}
         aria-label="next"
         className="grid-item actions__next"
@@ -46,6 +46,10 @@ export default function Actions({ populateDays, calendarState }: Props) {
         onKeyDown={(e) => handleKeyBoardMonthNavigation(e, MonthType.NEXT)}
       >
         &#x3e; &#x3e;
+      </button>
+      <div style={{ marginLeft: "auto" }}>
+        <button style={{ marginRight: "1rem" }}>Create Meeting</button>
+        <button>Add Task</button>
       </div>
       <Modal
         show={showModal}
